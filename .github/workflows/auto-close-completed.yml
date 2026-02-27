@@ -7,9 +7,9 @@ on:
 jobs:
   auto-close:
     runs-on: ubuntu-latest
-    if: contains(github.event.label.name, 'completed') || contains(github.event.issue.labels.*.name, 'completed')
     steps:
-      - name: Close issue
+      - name: Check and close issue
+        if: contains(join(github.event.issue.labels.*.name, ','), 'completed') || (github.event.label && github.event.label.name == 'completed')
         uses: actions-cool/issues-helper@v3
         with:
           actions: 'close-issue'
